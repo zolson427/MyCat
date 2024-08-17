@@ -1,7 +1,9 @@
 <h1 align="center">MyCat</h1>
-<div align="center">
+<div align="center"></div>
 
-Tamed myCats.
+Tamed cats.
+
+A fork of MyDog.
 
 ___
 
