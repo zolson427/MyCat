@@ -1,6 +1,6 @@
-package dk.fido2603.mydog.listeners;
+package dk.zolson427.mycat.listeners;
 
-import dk.fido2603.mydog.MyDog;
+import dk.zolson427.mycat.MyCat;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,16 +10,16 @@ import org.bukkit.event.world.EntitiesUnloadEvent;
 
 import java.util.List;
 
-public class WolfMainListener_1_18 implements Listener {
-    private final MyDog plugin;
+public class CatMainListener_1_18 implements Listener {
+    private final MyCat plugin;
 
-    public WolfMainListener_1_18(MyDog p) {
+    public CatMainListener_1_18(MyCat p) {
         this.plugin = p;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityLoad(EntitiesLoadEvent event) {
-        WolfMainListener.checkForDogs(event.getEntities().toArray(new Entity[0]));
+        CatMainListener.checkForCats(event.getEntities().toArray(new Entity[0]));
     }
 
     // If entities are unloaded, check if any of them are tameables
@@ -32,9 +32,9 @@ public class WolfMainListener_1_18 implements Listener {
         List<Entity> entities = event.getEntities();
 
         if (plugin.experimentalTeleport) {
-            MyDog.getTeleportationManager().teleportEntities(entities, null, "EntityUnload");
+            MyCat.getTeleportationManager().teleportEntities(entities, null, "EntityUnload");
         } else {
-            MyDog.getTeleportationManager().doTeleportEntities(entities, null);
+            MyCat.getTeleportationManager().doTeleportEntities(entities, null);
         }
     }
 }

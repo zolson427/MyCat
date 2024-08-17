@@ -1,4 +1,4 @@
-package dk.fido2603.mydog.utils;
+package dk.zolson427.mycat.utils;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package dk.fido2603.mydog.utils;
+package dk.zolson427.mycat.utils;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -6,12 +6,12 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import dk.fido2603.mydog.MyDog;
+import dk.zolson427.mycat.MyCat;
 
 public class ParticleUtils {
-    private final MyDog plugin;
+    private final MyCat plugin;
 
-    public ParticleUtils(MyDog p) {
+    public ParticleUtils(MyCat p) {
         this.plugin = p;
     }
 

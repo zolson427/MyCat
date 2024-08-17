@@ -1,11 +1,11 @@
-package dk.fido2603.mydog.objects;
+package dk.zolson427.mycat.objects;
 
-import dk.fido2603.mydog.MyDog;
+import dk.zolson427.mycat.MyCat;
 
 public class LevelFactory {
-    private final MyDog plugin;
+    private final MyCat plugin;
 
-    public LevelFactory(MyDog plugin) {
+    public LevelFactory(MyCat plugin) {
         this.plugin = plugin;
     }
 

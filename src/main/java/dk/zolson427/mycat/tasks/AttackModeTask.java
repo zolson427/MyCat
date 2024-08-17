@@ -1,34 +1,34 @@
-package dk.fido2603.mydog.tasks;
+package dk.zolson427.mycat.tasks;
 
-import dk.fido2603.mydog.MyDog;
-import dk.fido2603.mydog.objects.Dog;
+import dk.zolson427.mycat.MyCat;
+import dk.zolson427.mycat.objects.myCat;
 import org.bukkit.entity.*;
 
 import java.util.List;
 
 public class AttackModeTask implements Runnable {
-    private final MyDog plugin;
+    private final MyCat plugin;
 
-    public AttackModeTask(MyDog instance) {
+    public AttackModeTask(MyCat instance) {
         this.plugin = instance;
     }
 
     @Override
     public void run() {
-        plugin.logDebug("Running the angry dog target checker!");
+        plugin.logDebug("Running the angry cat target checker!");
         for (Player player : plugin.getServer().getOnlinePlayers()) {
-            for (Dog dog : MyDog.getDogManager().getAliveDogs((player.getUniqueId()))) {
-                if (dog.isAngry()) {
-                    Wolf wolf = (Wolf) plugin.getServer().getEntity(dog.getDogId());
-                    // If the dog has no target
-                    if (wolf != null && !wolf.isSitting() && wolf.getTarget() == null) {
+            for (myCat myCat : MyCat.getCatManager().getAliveCats((player.getUniqueId()))) {
+                if (myCat.isAngry()) {
+                    Cat cat = (Cat) plugin.getServer().getEntity(myCat.getCatId());
+                    // If the cat has no target
+                    if (cat != null && !cat.isSitting() && cat.getTarget() == null) {
                         double distance;
 
                         // if they are in two seperate worlds, it's safe to say that the distance is above 20 lol
-                        if (!player.getWorld().getUID().equals(wolf.getWorld().getUID())) {
+                        if (!player.getWorld().getUID().equals(cat.getWorld().getUID())) {
                             distance = 1000;
                         } else {
-                            distance = player.getLocation().distance(wolf.getLocation());
+                            distance = player.getLocation().distance(cat.getLocation());
                         }
 
                         // If distance is below or equal to 20, find a new target near the player
@@ -45,7 +45,7 @@ public class AttackModeTask implements Runnable {
                                 }
                             }
                             if (closest != null) {
-                                wolf.setTarget((LivingEntity) closest);
+                                cat.setTarget((LivingEntity) closest);
                             }
                         }
                     }

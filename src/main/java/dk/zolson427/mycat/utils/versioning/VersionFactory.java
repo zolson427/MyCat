@@ -1,4 +1,4 @@
-package dk.fido2603.mydog.utils.versioning;
+package dk.zolson427.mycat.utils.versioning;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

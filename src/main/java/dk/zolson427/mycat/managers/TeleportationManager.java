@@ -1,7 +1,7 @@
-package dk.fido2603.mydog.managers;
+package dk.zolson427.mycat.managers;
 
-import dk.fido2603.mydog.MyDog;
-import dk.fido2603.mydog.objects.Dog;
+import dk.zolson427.mycat.MyCat;
+import dk.zolson427.mycat.objects.myCat;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class TeleportationManager {
-    private final MyDog plugin;
+    private final MyCat plugin;
     private final List<UUID> teleportingEntities = new ArrayList<>();
     private final List<Chunk> entityChunks = new ArrayList<>();
 
-    public TeleportationManager(MyDog p) {
+    public TeleportationManager(MyCat p) {
         this.plugin = p;
     }
 
@@ -116,14 +116,14 @@ public class TeleportationManager {
         Sittable sittingEntity = (Sittable) e;
         Player player = (Player) tameableEntity.getOwner();
 
-        if (player == null || !player.isOnline() || (!player.isOp() && !MyDog.getPermissionsManager().hasPermission(player, "mydog.teleport"))) {
+        if (player == null || !player.isOnline() || (!player.isOp() && !MyCat.getPermissionsManager().hasPermission(player, "mycat.teleport"))) {
             teleportResult.put(false, safeLocation);
             return teleportResult;
         }
 
-        // If it's a dog, or if the config allows all tameables to teleport
-        boolean isDog = (e.getType().equals(EntityType.WOLF) && MyDog.getDogManager().isDog(tameableEntity.getUniqueId()));
-        if (!isDog && !plugin.teleportAllTameables) {
+        // If it's a cat, or if the config allows all tameables to teleport
+        boolean isCat = (e.getType().equals(EntityType.CAT) && MyCat.getCatManager().isCat(tameableEntity.getUniqueId()));
+        if (!isCat && !plugin.teleportAllTameables) {
             teleportResult.put(false, safeLocation);
             return teleportResult;
         }
@@ -137,9 +137,9 @@ public class TeleportationManager {
         plugin.logDebug("An entity that needs to be teleported was found! Running teleporting procedure!");
         plugin.logDebug("UUID: " + tameableEntity.getUniqueId());
         plugin.logDebug("Owner: " + ((Player) tameableEntity.getOwner()).getDisplayName());
-        // If dog, save location of the dog
-        if (isDog) {
-            MyDog.getDogManager().getDog(tameableEntity.getUniqueId()).saveDogLocation();
+        // If cat, save location of the cat
+        if (isCat) {
+            MyCat.getCatManager().getCat(tameableEntity.getUniqueId()).saveCatLocation();
         }
 
         // Begin teleport procedure!!
@@ -249,14 +249,14 @@ public class TeleportationManager {
         Sittable sittingEntity = (Sittable) e;
         Player player = (Player) tameableEntity.getOwner();
 
-        if (player == null || !player.isOnline() || (!player.isOp() && !MyDog.getPermissionsManager().hasPermission(player, "mydog.teleport"))) {
+        if (player == null || !player.isOnline() || (!player.isOp() && !MyCat.getPermissionsManager().hasPermission(player, "mycat.teleport"))) {
             teleportResult.put(false, safeLocation);
             return teleportResult;
         }
 
-        // If it's a dog, or if the config allows all tameables to teleport
-        boolean isDog = (e.getType().equals(EntityType.WOLF) && MyDog.getDogManager().isDog(tameableEntity.getUniqueId()));
-        if (!isDog && !plugin.teleportAllTameables) {
+        // If it's a cat, or if the config allows all tameables to teleport
+        boolean isCat = (e.getType().equals(EntityType.CAT) && MyCat.getCatManager().isCat(tameableEntity.getUniqueId()));
+        if (!isCat && !plugin.teleportAllTameables) {
             teleportResult.put(false, safeLocation);
             return teleportResult;
         }
@@ -267,9 +267,9 @@ public class TeleportationManager {
             return teleportResult;
         }
 
-        // If dog, save location of the dog
-        if (isDog) {
-            MyDog.getDogManager().getDog(tameableEntity.getUniqueId()).saveDogLocation();
+        // If cat, save location of the cat
+        if (isCat) {
+            MyCat.getCatManager().getCat(tameableEntity.getUniqueId()).saveCatLocation();
         }
 
         // Begin teleport procedure!!
@@ -317,9 +317,9 @@ public class TeleportationManager {
 
         tameableEntity.teleport(safeLocation);
 
-        Dog wolf = MyDog.getDogManager().getDog(tameableEntity.getUniqueId());
-        if (wolf != null) {
-            wolf.updateWolf();
+        myCat cat = MyCat.getCatManager().getCat(tameableEntity.getUniqueId());
+        if (cat != null) {
+            cat.updateCat();
         }
 
         if (sittingEntity.isSitting()) {

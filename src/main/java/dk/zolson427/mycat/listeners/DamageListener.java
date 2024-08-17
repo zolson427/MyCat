@@ -1,14 +1,14 @@
-package dk.fido2603.mydog.listeners;
+package dk.zolson427.mycat.listeners;
 
-import dk.fido2603.mydog.MyDog;
+import dk.zolson427.mycat.MyCat;
 
-import dk.fido2603.mydog.objects.Dog;
-import dk.fido2603.mydog.objects.LevelFactory;
+import dk.zolson427.mycat.objects.myCat;
+import dk.zolson427.mycat.objects.LevelFactory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,21 +16,21 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class DamageListener implements Listener {
-    private final MyDog plugin;
+    private final MyCat plugin;
 
-    public DamageListener(MyDog p) {
+    public DamageListener(MyCat p) {
         this.plugin = p;
     }
 
     @EventHandler
-    public void onWolfEntityDamage(EntityDamageByEntityEvent e) {
-        if (e.getEntity().getType() != EntityType.WOLF || !(MyDog.getDogManager().isDog(e.getEntity().getUniqueId()))) {
+    public void onCatEntityDamage(EntityDamageByEntityEvent e) {
+        if (e.getEntity().getType() != EntityType.CAT || !(MyCat.getCatManager().isCat(e.getEntity().getUniqueId()))) {
             return;
         }
         EntityType type = e.getDamager().getType();
         if (type == EntityType.PLAYER) {
-            Dog wolf = MyDog.getDogManager().getDog(e.getEntity().getUniqueId());
-            if (wolf.getOwnerId().equals(e.getDamager().getUniqueId())) {
+            myCat cat = MyCat.getCatManager().getCat(e.getEntity().getUniqueId());
+            if (cat.getOwnerId().equals(e.getDamager().getUniqueId())) {
                 e.setCancelled(true);
             }
         }
@@ -38,12 +38,12 @@ public class DamageListener implements Listener {
             e.setCancelled(true);
         }
 
-        // TODO something with a Dog's equipped armor to lower damage caused
+        // TODO something with a Cat's equipped armor to lower damage caused
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onWolfEntityDamage2(EntityDamageByEntityEvent e) {
-        if (e.getDamager().getType() != EntityType.WOLF || !(MyDog.getDogManager().isDog(e.getDamager().getUniqueId())) || plugin.lifesteal == 0.0D) {
+    public void onCatEntityDamage2(EntityDamageByEntityEvent e) {
+        if (e.getDamager().getType() != EntityType.CAT || !(MyCat.getCatManager().isCat(e.getDamager().getUniqueId())) || plugin.lifesteal == 0.0D) {
             return;
         }
 
@@ -51,18 +51,18 @@ public class DamageListener implements Listener {
             double healthPoints = e.getFinalDamage() * plugin.lifesteal;
 
             if (healthPoints > 0) {
-                plugin.logDebug("Lifesteal event, dog stole " + healthPoints + " health!");
+                plugin.logDebug("Lifesteal event, cat stole " + healthPoints + " health!");
 
-                Wolf wolf = (Wolf) e.getDamager();
-                Dog dog = MyDog.getDogManager().getDog(wolf.getUniqueId());
+                Cat cat = (Cat) e.getDamager();
+                myCat myCat = MyCat.getCatManager().getCat(cat.getUniqueId());
 
-                int dogsLevel = dog.getLevel();
-                if (dogsLevel < 1) {
+                int catsLevel = myCat.getLevel();
+                if (catsLevel < 1) {
                     plugin.logDebug("Level was under 1, setting level to 1");
-                    dogsLevel = 1;
+                    catsLevel = 1;
                 }
 
-                LevelFactory.Level level = plugin.dogLevels.get(dogsLevel);
+                LevelFactory.Level level = plugin.catLevels.get(catsLevel);
                 if (level == null) {
                     plugin.logDebug("Level object is null, returning!");
                     return;
@@ -73,16 +73,16 @@ public class DamageListener implements Listener {
                     health = 10.0;
                 }
 
-                AttributeInstance wolfMaxHealth = wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                AttributeInstance catMaxHealth = cat.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
-                if (wolfMaxHealth != null && wolfMaxHealth.getValue() != health) {
-                    wolfMaxHealth.setBaseValue(health);
+                if (catMaxHealth != null && catMaxHealth.getValue() != health) {
+                    catMaxHealth.setBaseValue(health);
                 }
 
-                if (wolf.getHealth() < health) {
+                if (cat.getHealth() < health) {
                     // If health would overflow, just set full health
-                    wolf.setHealth(Math.min(wolf.getHealth() + healthPoints, health));
-                    plugin.logDebug("Gave the dog, " + dog.getDogName() + ", " + healthPoints + " in health.");
+                    cat.setHealth(Math.min(cat.getHealth() + healthPoints, health));
+                    plugin.logDebug("Gave the cat, " + myCat.getCatName() + ", " + healthPoints + " in health.");
                 }
             }
         }
@@ -92,12 +92,12 @@ public class DamageListener implements Listener {
     public void onEntityDeath(EntityDamageEvent event) {
         if (event instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) event;
-            if (damageEvent.getDamager() instanceof Wolf && damageEvent.getEntity() instanceof LivingEntity) {
-                if (!(MyDog.getDogManager().isDog(damageEvent.getDamager().getUniqueId())) || (damageEvent.getFinalDamage() < ((LivingEntity) damageEvent.getEntity()).getHealth())) {
+            if (damageEvent.getDamager() instanceof Cat && damageEvent.getEntity() instanceof LivingEntity) {
+                if (!(MyCat.getCatManager().isCat(damageEvent.getDamager().getUniqueId())) || (damageEvent.getFinalDamage() < ((LivingEntity) damageEvent.getEntity()).getHealth())) {
                     return;
                 }
 
-                plugin.logDebug("Dog has killed " + event.getEntityType() + " with a final blow dealing " + event.getFinalDamage() + " HP!");
+                plugin.logDebug("Cat has killed " + event.getEntityType() + " with a final blow dealing " + event.getFinalDamage() + " HP!");
                 if (plugin.useLevels) {
                     int gainedExp;
                     switch (event.getEntityType()) {
@@ -208,10 +208,10 @@ public class DamageListener implements Listener {
                             break;
                     }
 
-                    // Give the Dog the experience
-                    Dog dog = MyDog.getDogManager().getDog(damageEvent.getDamager().getUniqueId());
-                    plugin.logDebug("Giving " + dog.getDogName() + " " + gainedExp + " experience!");
-                    dog.giveExperience(gainedExp);
+                    // Give the Cat the experience
+                    myCat myCat = MyCat.getCatManager().getCat(damageEvent.getDamager().getUniqueId());
+                    plugin.logDebug("Giving " + myCat.getCatName() + " " + gainedExp + " experience!");
+                    myCat.giveExperience(gainedExp);
                 }
             }
         }

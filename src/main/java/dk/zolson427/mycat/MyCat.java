@@ -1,19 +1,19 @@
-package dk.fido2603.mydog;
+package dk.zolson427.mycat;
 
-import dk.fido2603.mydog.listeners.WolfMainListener_1_18;
-import dk.fido2603.mydog.objects.LevelFactory;
-import dk.fido2603.mydog.objects.LevelFactory.Level;
-import dk.fido2603.mydog.listeners.DamageListener;
-import dk.fido2603.mydog.listeners.WolfMainListener;
-import dk.fido2603.mydog.managers.CommandManager;
-import dk.fido2603.mydog.managers.DogManager;
-import dk.fido2603.mydog.managers.PermissionsManager;
-import dk.fido2603.mydog.managers.TeleportationManager;
-import dk.fido2603.mydog.tasks.AttackModeTask;
-import dk.fido2603.mydog.tasks.DistanceTask;
-import dk.fido2603.mydog.utils.ParticleUtils;
-import dk.fido2603.mydog.utils.versioning.Version;
-import dk.fido2603.mydog.utils.versioning.VersionFactory;
+import dk.zolson427.mycat.listeners.CatMainListener_1_18;
+import dk.zolson427.mycat.objects.LevelFactory;
+import dk.zolson427.mycat.objects.LevelFactory.Level;
+import dk.zolson427.mycat.listeners.DamageListener;
+import dk.zolson427.mycat.listeners.CatMainListener;
+import dk.zolson427.mycat.managers.CommandManager;
+import dk.zolson427.mycat.managers.CatManager;
+import dk.zolson427.mycat.managers.PermissionsManager;
+import dk.zolson427.mycat.managers.TeleportationManager;
+import dk.zolson427.mycat.tasks.AttackModeTask;
+import dk.zolson427.mycat.tasks.DistanceTask;
+import dk.zolson427.mycat.utils.ParticleUtils;
+import dk.zolson427.mycat.utils.versioning.Version;
+import dk.zolson427.mycat.utils.versioning.VersionFactory;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 
@@ -37,8 +37,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 /*                   DOGONFIRE'S MYHORSE                  */
 /*														  */
 /*          https://github.com/DogOnFire/MyHorse          */
-public class MyDog extends JavaPlugin {
-    private static MyDog instance;
+public class MyCat extends JavaPlugin {
+    private static MyCat instance;
     public static boolean pluginEnabled = false;
     private static final int pluginId = 18606;
 
@@ -64,36 +64,36 @@ public class MyDog extends JavaPlugin {
     public boolean allowArrowDamage = false;
     public double lifesteal = 0.25D;
 
-    public String levelUpSound = "ENTITY_WOLF_HOWL";
-    public String levelUpString = "&5&l[{chatPrefix}] &r&5Your dog, {dogNameColor}{dogName}&5, just leveled up to &dLevel {level}&5!";
+    public String levelUpSound = "ENTITY_CAT_PURR";
+    public String levelUpString = "&5&l[{chatPrefix}] &r&5Your cat, {catNameColor}{catName}&5, just leveled up to &dLevel {level}&5!";
     public String cannotTeleportTameableString = "&c&l[{chatPrefix}] &r&cHello! Looks like you just teleported away from your Pet(s)! " +
             "They can sadly not find a safe place to stay, so they are staying behind for now :( They will be waiting for you where you left them...";
-    public String newDogString = "&6&l[{chatPrefix}] &r&6Congratulations with your new dog, {dogNameColor}{dogName}&6!";
-    public String deadDogString = "&c&l[{chatPrefix}] &r&cYour dog, {dogNameColor}{dogName}&c, just passed away... {dogNameColor}{dogName}&c lived for {time}{deadDogLevelString}.";
-    public String deadDogLevelString = ", and got to &4Level {level}&c";
-    public String commandComehereString = "&6&l[{chatPrefix}] &r&6Come here! Good doggo, {dogNameColor}{dogName}&6!";
-    public String tameLimitString = "&c&l[{chatPrefix}] &r&cTaming failed! Looks like you have reached your limit of dogs! You can maybe set some dead dogs free, or revive some?";
-    public String pettingString = "&6Who's a good doggo?! {dogNameColor}{dogName}&6 is!";
-    public String pettingSplashString = "{dogNameColor}{dogName}&6 splashes water all over you!";
+    public String newCatString = "&6&l[{chatPrefix}] &r&6Congratulations with your new cat, {catNameColor}{catName}&6!";
+    public String deadCatString = "&c&l[{chatPrefix}] &r&cYour cat, {catNameColor}{catName}&c, just passed away... {catNameColor}{catName}&c lived for {time}{deadCatLevelString}.";
+    public String deadCatLevelString = ", and got to &4Level {level}&c";
+    public String commandComehereString = "&6&l[{chatPrefix}] &r&6Come here! Good catgo, {catNameColor}{catName}&6!";
+    public String tameLimitString = "&c&l[{chatPrefix}] &r&cTaming failed! Looks like you have reached your limit of cats! You can maybe set some dead cats free, or revive some?";
+    public String pettingString = "&6Who's a good cat?! {catNameColor}{catName}&6 is!";
+    public String pettingSplashString = "{catNameColor}{catName}&6 splashes water all over you!";
 
-    private static MyDog plugin;
+    private static MyCat plugin;
     private static FileConfiguration config = null;
     private static PermissionsManager permissionsManager = null;
-    private static DogManager dogManager = null;
+    private static CatManager catManager = null;
     private static TeleportationManager teleportationManager = null;
     private static LevelFactory levelFactory = null;
     private static ParticleUtils particleUtils = null;
 
     public boolean randomCollarColor = true;
     public boolean useLevels = true;
-    public List<String> dogNames = Arrays.asList(
-            "Fido", "Queen", "King", "Doggy", "Charlie", "Max", "Milo", "Ollie", "Toby", "Teddy", "Molly", "Rosie", "Bella",
+    public List<String> catNames = Arrays.asList(
+            "Queen", "King", "Gato", "Charlie", "Max", "Milo", "Ollie", "Toby", "Teddy", "Molly", "Rosie", "Bella",
             "Abby", "Addie", "Alexis", "Alice", "Allie", "Alyssa", "Amber", "Angel", "Anna", "Annie", "Ariel", "Ashley",
             "Aspen", "Athena", "Autumn", "Ava", "Avery", "Baby", "Bailey", "Basil", "Bean", "Bella", "Belle", "Betsy",
             "Betty", "Bianca", "Birdie", "Biscuit", "Blondie", "Blossom", "Bonnie", "Brandy", "Brooklyn", "Brownie", "Buffy",
             "Callie", "Camilla", "Candy", "Carla", "Carly", "Carmela", "Casey", "Cassie", "Chance", "Chanel", "Chloe",
             "Cinnamon", "Cleo", "Coco", "Cookie", "Cricket", "Daisy", "Dakota", "Dana", "Daphne", "Darla", "Darlene",
-            "Delia", "Delilah", "Destiny", "Diamond", "Diva", "Dixie", "Dolly", "Duchess", "Eden", "Edie", "Ella", "Ellie",
+            "Delia", "Delilah", "Diamond", "Diva", "Dixie", "Dolly", "Duchess", "Eden", "Eddie", "Ella", "Ellie",
             "Elsa", "Emma", "Emmy", "Eva", "Faith", "Fanny", "Fern", "Fiona", "Foxy", "Gabby", "Gemma", "Georgia", "Gia",
             "Gidget", "Gigi", "Ginger", "Goldie", "Grace", "Gracie", "Greta", "Gypsy", "Hailey", "Hannah", "Harley", "Harper",
             "Hazel", "Heidi", "Hershey", "Holly", "Honey", "Hope", "Ibby", "Inez", "Isabella", "Ivy", "Izzy", "Jackie", "Jada",
@@ -131,14 +131,14 @@ public class MyDog extends JavaPlugin {
             "Wally", "Walter", "Watson", "Willy", "Winston", "Woody", "Wrigley", "Wyatt", "Yogi", "Yoshi", "Yukon",
             "Zane", "Zeus", "Ziggy");
 
-    public final Map<Integer, Level> dogLevels = new HashMap<>();
+    public final Map<Integer, Level> catLevels = new HashMap<>();
 
     private static Economy economy = null;
     private CommandManager commands = null;
-    private String chatPrefix = "MyDog";
+    private String chatPrefix = "MyCat";
     public String serverName = "Your Server";
 
-    public static MyDog instance() {
+    public static MyCat instance() {
         return instance;
     }
 
@@ -146,8 +146,8 @@ public class MyDog extends JavaPlugin {
         return permissionsManager;
     }
 
-    public static DogManager getDogManager() {
-        return dogManager;
+    public static CatManager getCatManager() {
+        return catManager;
     }
 
     public static TeleportationManager getTeleportationManager() {
@@ -200,8 +200,8 @@ public class MyDog extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        WolfMainListener tameListener;
-        WolfMainListener_1_18 tameListener_1_18;
+        CatMainListener tameListener;
+        CatMainListener_1_18 tameListener_1_18;
         DamageListener damageListener;
 
         plugin = this;
@@ -213,10 +213,10 @@ public class MyDog extends JavaPlugin {
 
         pluginEnabled = true;
 
-        tameListener = new WolfMainListener(this);
-        tameListener_1_18 = new WolfMainListener_1_18(this);
+        tameListener = new CatMainListener(this);
+        tameListener_1_18 = new CatMainListener_1_18(this);
         damageListener = new DamageListener(this);
-        dogManager = new DogManager(this);
+        catManager = new CatManager(this);
         teleportationManager = new TeleportationManager(this);
         levelFactory = new LevelFactory(this);
 
@@ -253,13 +253,13 @@ public class MyDog extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(damageListener, this);
 
-        // The dog distance checker, might take some extra powerrr. Checks every ~30 seconds. Starts after 1,5 minutes.
+        // The cat distance checker, might take some extra powerrr. Checks every ~30 seconds. Starts after 1,5 minutes.
         if (playerDistanceCheck && automaticTeleportation) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new DistanceTask(this), 20L * 60L, 20L * 10L);
         }
 
         // Attack mode / angry checker
-        // keeps the dog on a target
+        // keeps the cat on a target
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new AttackModeTask(this), 20L * 30L, 20L * 2L);
 
         // Enable metrics
@@ -286,71 +286,71 @@ public class MyDog extends JavaPlugin {
 
         this.debug = config.getBoolean("Settings.Debug", false);
         this.serverName = config.getString("Settings.ServerName", "Your Server");
-        this.chatPrefix = config.getString("Settings.ChatPrefix", "MyDog");
+        this.chatPrefix = config.getString("Settings.ChatPrefix", "MyCat");
         this.instantSave = config.getBoolean("Settings.InstantSaveConfig", false);
         this.automaticTeleportation = config.getBoolean("Settings.AutomaticTeleportation", true);
         this.teleportAllTameables = config.getBoolean("Settings.TeleportAllTameables", false);
         this.experimentalTeleport = config.getBoolean("Settings.EnableExperimentalTeleport", false);
         this.playerDistanceCheck = config.getBoolean("Settings.PlayerDistanceCheck", true);
         this.expandedSearch = config.getBoolean("Settings.ExpandedSearch", false);
-        this.randomCollarColor = config.getBoolean("DogSettings.RandomCollarColor", true);
-        this.useLevels = config.getBoolean("DogSettings.UseLevels", true);
-        this.teleportOnWorldChange = config.getBoolean("DogSettings.TeleportOnWorldChange", true);
-        this.onlyShowNametagOnHover = config.getBoolean("DogSettings.OnlyShowNametagOnHover", false);
-        this.showLevelsInNametag = config.getBoolean("DogSettings.ShowLevelsInNametag", true);
-        this.allowPlayerKillExp = config.getBoolean("DogSettings.AllowPlayerKillExp", true);
-        this.allowNametagRename = config.getBoolean("DogSettings.AllowNametagRename", true);
-        this.allowRevival = config.getBoolean("DogSettings.AllowRevival", true);
-        this.revivalPrice = config.getInt("DogSettings.RevivalPricePerLevel", 200);
-        this.revivalUsingPlayerExp = config.getBoolean("DogSettings.RevivalUsingPlayerExp", false);
-        this.allowArrowDamage = config.getBoolean("DogSettings.AllowArrowDamage", false);
-        this.lifesteal = config.getDouble("DogSettings.Lifesteal", 0.25D);
-        if (config.contains("DogSettings.DogNames") && !config.getStringList("DogSettings.DogNames").isEmpty()) {
-            this.dogNames = config.getStringList("DogSettings.DogNames");
+        this.randomCollarColor = config.getBoolean("CatSettings.RandomCollarColor", true);
+        this.useLevels = config.getBoolean("CatSettings.UseLevels", true);
+        this.teleportOnWorldChange = config.getBoolean("CatSettings.TeleportOnWorldChange", true);
+        this.onlyShowNametagOnHover = config.getBoolean("CatSettings.OnlyShowNametagOnHover", false);
+        this.showLevelsInNametag = config.getBoolean("CatSettings.ShowLevelsInNametag", true);
+        this.allowPlayerKillExp = config.getBoolean("CatSettings.AllowPlayerKillExp", true);
+        this.allowNametagRename = config.getBoolean("CatSettings.AllowNametagRename", true);
+        this.allowRevival = config.getBoolean("CatSettings.AllowRevival", true);
+        this.revivalPrice = config.getInt("CatSettings.RevivalPricePerLevel", 200);
+        this.revivalUsingPlayerExp = config.getBoolean("CatSettings.RevivalUsingPlayerExp", false);
+        this.allowArrowDamage = config.getBoolean("CatSettings.AllowArrowDamage", false);
+        this.lifesteal = config.getDouble("CatSettings.Lifesteal", 0.25D);
+        if (config.contains("CatSettings.CatNames") && !config.getStringList("CatSettings.CatNames").isEmpty()) {
+            this.catNames = config.getStringList("CatSettings.CatNames");
         }
 
         // Levels
-        if (config.getConfigurationSection("DogSettings.Levels") != null) {
-            this.dogLevels.clear();
-            ConfigurationSection levelsSection = config.getConfigurationSection("DogSettings.Levels");
+        if (config.getConfigurationSection("CatSettings.Levels") != null) {
+            this.catLevels.clear();
+            ConfigurationSection levelsSection = config.getConfigurationSection("CatSettings.Levels");
             if (levelsSection != null) {
                 for (String level : levelsSection.getKeys(false)) {
-                    if (config.getConfigurationSection("DogSettings.Levels." + level) != null) {
-                        int exp = config.getInt("DogSettings.Levels." + level + ".Experience");
-                        double health = config.getInt("DogSettings.Levels." + level + ".Health");
-                        double damage = config.getInt("DogSettings.Levels." + level + ".Damage");
+                    if (config.getConfigurationSection("CatSettings.Levels." + level) != null) {
+                        int exp = config.getInt("CatSettings.Levels." + level + ".Experience");
+                        double health = config.getInt("CatSettings.Levels." + level + ".Health");
+                        double damage = config.getInt("CatSettings.Levels." + level + ".Damage");
 
-                        this.dogLevels.put(Integer.parseInt(level), getLevelFactory().newLevel(Integer.parseInt(level), exp, health, damage));
+                        this.catLevels.put(Integer.parseInt(level), getLevelFactory().newLevel(Integer.parseInt(level), exp, health, damage));
                     }
                 }
             }
         } else {
             // Put levels into the hashmap
             // Level format - [level, experience]
-            this.dogLevels.clear();
-            this.dogLevels.put(1, getLevelFactory().newLevel(1, 0, 20, 4));
-            this.dogLevels.put(2, getLevelFactory().newLevel(2, 10, 21, 5));
-            this.dogLevels.put(3, getLevelFactory().newLevel(3, 100, 22, 6));
-            this.dogLevels.put(4, getLevelFactory().newLevel(4, 200, 23, 7));
-            this.dogLevels.put(5, getLevelFactory().newLevel(5, 500, 24, 8));
-            this.dogLevels.put(6, getLevelFactory().newLevel(6, 1000, 26, 11));
-            this.dogLevels.put(7, getLevelFactory().newLevel(7, 2000, 29, 13));
-            this.dogLevels.put(8, getLevelFactory().newLevel(8, 3000, 31, 15));
-            this.dogLevels.put(9, getLevelFactory().newLevel(9, 4000, 33, 17));
-            this.dogLevels.put(10, getLevelFactory().newLevel(10, 5000, 36, 20));
+            this.catLevels.clear();
+            this.catLevels.put(1, getLevelFactory().newLevel(1, 0, 20, 4));
+            this.catLevels.put(2, getLevelFactory().newLevel(2, 10, 21, 5));
+            this.catLevels.put(3, getLevelFactory().newLevel(3, 100, 22, 6));
+            this.catLevels.put(4, getLevelFactory().newLevel(4, 200, 23, 7));
+            this.catLevels.put(5, getLevelFactory().newLevel(5, 500, 24, 8));
+            this.catLevels.put(6, getLevelFactory().newLevel(6, 1000, 26, 11));
+            this.catLevels.put(7, getLevelFactory().newLevel(7, 2000, 29, 13));
+            this.catLevels.put(8, getLevelFactory().newLevel(8, 3000, 31, 15));
+            this.catLevels.put(9, getLevelFactory().newLevel(9, 4000, 33, 17));
+            this.catLevels.put(10, getLevelFactory().newLevel(10, 5000, 36, 20));
         }
 
         // Messages and sounds
-        this.levelUpSound = config.getString("PlayerInteraction.LevelUpSound", "ENTITY_WOLF_HOWL");
-        this.levelUpString = config.getString("PlayerInteraction.LevelUpString", "&5&l[{chatPrefix}] &r&5Your dog, {dogNameColor}{dogName}&5, just leveled up to &dLevel {level}&5!");
+        this.levelUpSound = config.getString("PlayerInteraction.LevelUpSound", "ENTITY_CAT_PURR");
+        this.levelUpString = config.getString("PlayerInteraction.LevelUpString", "&5&l[{chatPrefix}] &r&5Your cat, {catNameColor}{catName}&5, just leveled up to &dLevel {level}&5!");
         this.cannotTeleportTameableString = config.getString("PlayerInteraction.CannotTeleportTameableString", "&c&l[{chatPrefix}] &r&cHello! Looks like you just teleported away from your Pet(s)! " +
                 "They can sadly not find a safe place to stay, so they are staying behind for now :( They will be waiting for you where you left them...");
-        this.newDogString = config.getString("PlayerInteraction.NewDogString", "&6&l[{chatPrefix}] &r&6Congratulations with your new dog, {dogNameColor}{dogName}&6!");
-        this.deadDogString = config.getString("PlayerInteraction.DeadDogString", "&c&l[{chatPrefix}] &r&cYour dog, {dogNameColor}{dogName}&c, just passed away... {dogNameColor}{dogName}&c lived for {time}{deadDogLevelString}.");
-        this.deadDogLevelString = config.getString("PlayerInteraction.DeadDogLevelString", ", and got to &4Level {level}&c");
-        this.commandComehereString = config.getString("PlayerInteraction.CommandComehereString", "&6&l[{chatPrefix}] &r&6Come here! Good doggo, {dogNameColor}{dogName}&6!");
+        this.newCatString = config.getString("PlayerInteraction.NewCatString", "&6&l[{chatPrefix}] &r&6Congratulations with your new cat, {catNameColor}{catName}&6!");
+        this.deadCatString = config.getString("PlayerInteraction.DeadCatString", "&c&l[{chatPrefix}] &r&cYour cat, {catNameColor}{catName}&c, just passed away... {catNameColor}{catName}&c lived for {time}{deadCatLevelString}.");
+        this.deadCatLevelString = config.getString("PlayerInteraction.DeadCatLevelString", ", and got to &4Level {level}&c");
+        this.commandComehereString = config.getString("PlayerInteraction.CommandComehereString", "&6&l[{chatPrefix}] &r&6Come here! Good catgo, {catNameColor}{catName}&6!");
 
-        dogManager.load();
+        catManager.load();
     }
 
     public void saveSettings() {
@@ -362,40 +362,40 @@ public class MyDog extends JavaPlugin {
         config.set("Settings.ExpandedSearch", this.expandedSearch);
         config.set("Settings.EnableExperimentalTeleport", this.experimentalTeleport);
         config.set("Settings.PlayerDistanceCheck", this.playerDistanceCheck);
-        config.set("DogSettings.RandomCollarColor", this.randomCollarColor);
-        config.set("DogSettings.UseLevels", this.useLevels);
-        config.set("DogSettings.TeleportOnWorldChange", this.teleportOnWorldChange);
+        config.set("CatSettings.RandomCollarColor", this.randomCollarColor);
+        config.set("CatSettings.UseLevels", this.useLevels);
+        config.set("CatSettings.TeleportOnWorldChange", this.teleportOnWorldChange);
         config.set("Settings.TeleportAllTameables", this.teleportAllTameables);
-        config.set("DogSettings.OnlyShowNametagOnHover", this.onlyShowNametagOnHover);
-        config.set("DogSettings.ShowLevelsInNametag", this.showLevelsInNametag);
-        config.set("DogSettings.AllowPlayerKillExp", this.allowPlayerKillExp);
-        config.set("DogSettings.AllowNametagRename", this.allowNametagRename);
-        config.set("DogSettings.DogNames", this.dogNames);
-        config.set("DogSettings.AllowRevival", this.allowRevival);
-        config.set("DogSettings.RevivalPricePerLevel", this.revivalPrice);
-        config.set("DogSettings.RevivalUsingPlayerExp", this.revivalUsingPlayerExp);
-        config.set("DogSettings.AllowArrowDamage", this.allowArrowDamage);
-        config.set("DogSettings.Lifesteal", this.lifesteal);
+        config.set("CatSettings.OnlyShowNametagOnHover", this.onlyShowNametagOnHover);
+        config.set("CatSettings.ShowLevelsInNametag", this.showLevelsInNametag);
+        config.set("CatSettings.AllowPlayerKillExp", this.allowPlayerKillExp);
+        config.set("CatSettings.AllowNametagRename", this.allowNametagRename);
+        config.set("CatSettings.catNames", this.catNames);
+        config.set("CatSettings.AllowRevival", this.allowRevival);
+        config.set("CatSettings.RevivalPricePerLevel", this.revivalPrice);
+        config.set("CatSettings.RevivalUsingPlayerExp", this.revivalUsingPlayerExp);
+        config.set("CatSettings.AllowArrowDamage", this.allowArrowDamage);
+        config.set("CatSettings.Lifesteal", this.lifesteal);
 
         // Levels
-        for (Integer level : this.dogLevels.keySet()) {
-            Level levelObject = this.dogLevels.get(level);
-            config.set("DogSettings.Levels." + level + ".Experience", levelObject.exp);
-            config.set("DogSettings.Levels." + level + ".Health", levelObject.health);
-            config.set("DogSettings.Levels." + level + ".Damage", levelObject.damage);
+        for (Integer level : this.catLevels.keySet()) {
+            Level levelObject = this.catLevels.get(level);
+            config.set("CatSettings.Levels." + level + ".Experience", levelObject.exp);
+            config.set("CatSettings.Levels." + level + ".Health", levelObject.health);
+            config.set("CatSettings.Levels." + level + ".Damage", levelObject.damage);
         }
 
         // Messages and sounds
         config.set("PlayerInteraction.LevelUpSound", this.levelUpSound);
         config.set("PlayerInteraction.LevelUpString", this.levelUpString);
         config.set("PlayerInteraction.CannotTeleportTameableString", this.cannotTeleportTameableString);
-        config.set("PlayerInteraction.NewDogString", this.newDogString);
-        config.set("PlayerInteraction.DeadDogString", this.deadDogString);
-        config.set("PlayerInteraction.DeadDogLevelString", this.deadDogLevelString);
+        config.set("PlayerInteraction.NewCatString", this.newCatString);
+        config.set("PlayerInteraction.DeadCatString", this.deadCatString);
+        config.set("PlayerInteraction.DeadCatLevelString", this.deadCatLevelString);
         config.set("PlayerInteraction.CommandComehereString", this.commandComehereString);
 
         saveConfig();
-        dogManager.save();
+        catManager.save();
     }
 
     @Override

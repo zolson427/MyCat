@@ -1,6 +1,6 @@
-package dk.fido2603.mydog.managers;
+package dk.zolson427.mycat.managers;
 
-import dk.fido2603.mydog.MyDog;
+import dk.zolson427.mycat.MyCat;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
@@ -10,11 +10,11 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class PermissionsManager {
     private final String pluginName = "null";
-    private final MyDog plugin;
+    private final MyCat plugin;
     private Permission vaultPermission = null;
     private Chat vaultChat = null;
 
-    public PermissionsManager(MyDog p) {
+    public PermissionsManager(MyCat p) {
         this.plugin = p;
 
         if (p.vaultEnabled) {
